@@ -1,2 +1,2 @@
-# Rehabilitation Robot (feature)
+# Rehabilitation Robot 
 ## Eye Tracking

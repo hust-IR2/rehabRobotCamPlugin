@@ -1,7 +1,7 @@
 # Rehabilitation Robot 
 ## dependencies
-> OpenCV3.1
-> Qt5
++ OpenCV3.1
++ Qt5
 
 
 ## Camera thread

@@ -20,14 +20,16 @@ HEADERS += \
     src/CameraThread.h \
     src/BetterVideoCapture.h \
     src/CVEyeCameraPlugin.h \
-    src/CVEyeCamera.h
+    src/CVEyeCamera.h \
+    src/pupilDetect.h
 
 SOURCES += \
     src/CVCamera.cpp \
     src/CameraThread.cpp \
     src/BetterVideoCapture.cpp \
     src/CVEyeCameraPlugin.cpp \
-    src/CVEyeCamera.cpp
+    src/CVEyeCamera.cpp \
+    src/pupilDetect.cpp
 win32 {
 QMAKESPEC = win32-msvc
     INCLUDEPATH += $$(OPENCV_HOME)\include $$(OPENCV_HOME)\include\opencv

@@ -1,5 +1,6 @@
 #include "CVEyeCamera.h"
 #include <iostream>
+#include "pupilDetect.h"
 using namespace std;
 CVEyeCamera::CVEyeCamera(QQuickItem* parent): CVCamera(parent)
 {
@@ -34,7 +35,13 @@ void CVEyeCamera::setRightDown(QPoint _rightDown)
 void CVEyeCamera::cvImageProcess()
 {
     cv::Mat image = getCvImage().value<cv::Mat>();
-    cv::rectangle(image, cv::Rect(leftTop.x(), leftTop.y(), rightDown.x() - leftTop.x(), rightDown.y() - leftTop.y()),cv::Scalar(0,0,255),3);
+    cv::Rect roi = cv::Rect(leftTop.x(), leftTop.y(), rightDown.x() - leftTop.x(), rightDown.y() - leftTop.y());
+    cv::Mat pupilTemplate = cv::imread("pupilTemplate.jpg");
+    cv::Point center;
+    float scale = 0.9;
+    std::cout << scale << std::endl;
+    monoPupilDetect(image, roi, center, pupilTemplate, scale);
+    cv::rectangle(image, roi,cv::Scalar(0,0,255),3);
     cv::imshow("image", image);
     cv::waitKey(1);
 }

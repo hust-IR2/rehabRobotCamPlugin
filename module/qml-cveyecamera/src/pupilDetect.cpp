@@ -1,4 +1,4 @@
-#include<pupilDetect.h>
+#include"pupilDetect.h"
 
 //Mat obj is the pupil template to match over the eye image
 //pupilCenter is the detected pupil center
@@ -92,7 +92,9 @@ int biPupilDetect(cv::Mat eyeL,
 }
 
 
-
+/// TODO
+/// pupilCenter should be a reference?
+/// Can HUANG
 int monoPupilDetect(cv::Mat eye,
                 cv::Rect roi,
                 cv::Point pupilCenter,
@@ -105,6 +107,7 @@ int monoPupilDetect(cv::Mat eye,
     //if the roi rectangle is not valid ,return
     if (roi.width==0||roi.height==0)
         return -1;
+    std::cout << obj.cols << std::endl;
 
     cv::Mat roiImg(eye,roi);
 
@@ -155,6 +158,7 @@ int monoPupilDetect(cv::Mat eye,
                             maxLoc.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
     cv::namedWindow("roiImg");
     cv::imshow("roiImg", roiImg);
+    cv::waitKey(1);
 
 
 }

@@ -1,0 +1,4 @@
+module CVEyeCamera
+plugin cveyecameraplugin
+typeinfo cveyecamera.qmltypes
+

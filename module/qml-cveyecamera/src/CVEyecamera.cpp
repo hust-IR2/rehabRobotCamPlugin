@@ -34,12 +34,11 @@ void CVEyeCamera::setRightDown(QPoint _rightDown)
 
 void CVEyeCamera::cvImageProcess()
 {
-    cv::Mat image = getCvImage().value<cv::Mat>();
+    cv::Mat image = getCvImage().value<cv::Mat>().clone();
     cv::Rect roi = cv::Rect(leftTop.x(), leftTop.y(), rightDown.x() - leftTop.x(), rightDown.y() - leftTop.y());
-    cv::Mat pupilTemplate = cv::imread("pupilTemplate.jpg");
+    cv::Mat pupilTemplate = cv::imread("pupilTemplate.jpg", 0);
     cv::Point center;
     float scale = 0.9;
-    std::cout << scale << std::endl;
     monoPupilDetect(image, roi, center, pupilTemplate, scale);
     cv::rectangle(image, roi,cv::Scalar(0,0,255),3);
     cv::imshow("image", image);

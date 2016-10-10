@@ -1,4 +1,5 @@
 #include"pupilDetect.h"
+#include <math.h>
 
 //Mat obj is the pupil template to match over the eye image
 //pupilCenter is the detected pupil center
@@ -92,46 +93,39 @@ int biPupilDetect(cv::Mat eyeL,
 }
 
 
-/// TODO
-/// pupilCenter should be a reference?
-/// Can HUANG
-int monoPupilDetect(cv::Mat eye,
-                cv::Rect roi,
-                cv::Point pupilCenter,
-                cv::Mat obj,
-                float &objScale)
+int monoPupilDetect(const cv::Mat&  eye,
+                const cv::Rect& roi,
+                cv::Point& pupilCenter,
+                const cv::Mat& obj,
+                float objScale)
 {
+
     int method = cv::TemplateMatchModes::TM_CCOEFF_NORMED;
     int matchResultWidth,matchResultHeight;
 
     //if the roi rectangle is not valid ,return
     if (roi.width==0||roi.height==0)
         return -1;
-    std::cout << obj.cols << std::endl;
 
-    cv::Mat roiImg(eye,roi);
+    if(0==objScale)
+        return -1;
 
+
+    cv::Mat tmpMat = cv::Mat::zeros(eye.size(), CV_8U);
+    cv::cvtColor(eye, tmpMat, CV_RGB2GRAY);
+
+    cv::Mat roiImg(tmpMat, roi);
     cv::Mat matchResult,scaledObj;
 
-    double sizeRatioRefROI=0.4;
 
 
     //scale the obj template to the proper size in the ROI image of eye image
-    if(0==objScale)
-        objScale=0.9;
-
-    cv::resize(obj,scaledObj,
-               cv::Size(round(objScale*obj.size().width),round(objScale*obj.size().height)),
-               0,0,cv:: INTER_LINEAR);
-
-
-    while ((scaledObj.size().width>sizeRatioRefROI*roiImg.cols)||(scaledObj.size().height>sizeRatioRefROI*roiImg.rows))
-    {
-        objScale = objScale*0.9;
-        cv::resize(obj,scaledObj,
-                   cv::Size(round(objScale*obj.size().width),round(objScale*obj.size().height)),
-                   0,0,cv:: INTER_LINEAR);
-    }
+    double sizeRatioRefROI=0.4 * objScale;
+    double minRarioOfRoiAndObj =
+            sizeRatioRefROI *
+            std::min(float(roi.width) / obj.cols,
+                     float(roi.height) / obj.rows);
+    cv::resize(obj, scaledObj,cv::Size(obj.size().width*minRarioOfRoiAndObj,obj.size().height*minRarioOfRoiAndObj));
 
     scaledObj.convertTo(scaledObj , obj.type() , 1 , 0 );
 
@@ -143,22 +137,20 @@ int monoPupilDetect(cv::Mat eye,
     matchResultWidth = roiImg.cols - scaledObj.size().width + 1;
     matchResultHeight = roiImg.rows - scaledObj.size().height + 1;
 
-    matchResult.create(matchResultWidth,matchResultHeight,CV_32FC1);
+    //matchResult.create(matchResultWidth,matchResultHeight,CV_32FC1);
 
-    cv::matchTemplate(eye,scaledObj,matchResult,method);
+    cv::matchTemplate(roiImg, scaledObj,matchResult, method);
 
     //find out the position of the most matching patch
     double minVal, maxVal;
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(matchResult, &minVal, &maxVal, &minLoc, &maxLoc);
 
-    //show the matched patch
+   //show the matched patch
     cv::rectangle(roiImg, cv::Point(maxLoc.x,maxLoc.y),
                   cv::Point(maxLoc.x + scaledObj.size().width,
                             maxLoc.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
     cv::namedWindow("roiImg");
     cv::imshow("roiImg", roiImg);
     cv::waitKey(1);
-
-
 }

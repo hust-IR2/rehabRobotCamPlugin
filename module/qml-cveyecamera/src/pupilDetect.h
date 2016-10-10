@@ -18,11 +18,11 @@ int biPupilDetect(cv::Mat eyeL,
                 float &objScale);
 
 
-int monoPupilDetect(cv::Mat eye,
-                cv::Rect roi,
-                cv::Point pupilCenter,
-                cv::Mat obj,
-                float &objScale);
+int monoPupilDetect(const cv::Mat& eye,
+                const cv::Rect& roi,
+                cv::Point& pupilCenter,
+                const cv::Mat& obj,
+                float objScale);
 
 
 

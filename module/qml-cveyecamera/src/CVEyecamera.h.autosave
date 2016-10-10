@@ -18,6 +18,7 @@ Q_OBJECT
                READ getRightDown
                WRITE setRightDown
                NOTIFY RightDownChanged)
+
 public:
     CVEyeCamera(QQuickItem* parent = 0);
     QPoint getLeftTop();
@@ -32,7 +33,7 @@ public slots:
 private:
     QPoint leftTop;
     QPoint rightDown;
-    QPoint center;
-    cv::Point pupilCenter;
+    QPoint pupilCenter;
+    cv::Point cvPupilCenter;
 };
 #endif // CVEYECAMERA_H

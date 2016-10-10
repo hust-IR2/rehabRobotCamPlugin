@@ -31,7 +31,7 @@ int biPupilDetect(cv::Mat eyeL,
     double sizeRatioRefROI=0.4;
 
 
-    //scale the obj template to the proper size in the ROI image of eye image
+    //scale the obj template to the /proper size in the ROI image of eye image
     if(objScale==0)
         objScale=0.9;
 
@@ -51,7 +51,7 @@ int biPupilDetect(cv::Mat eyeL,
 
     scaledObj.convertTo(scaledObj , obj.type() , 1 , 0 );
     cv::namedWindow("scaledObj");
-    cv::imshow("scaledObj", scaledObj);
+    // cv::imshow("scaledObj", scaledObj);
 
 
     //match the template over the ROI image ,store the match result in the the Mat matchResultL & matchResultR
@@ -76,17 +76,17 @@ int biPupilDetect(cv::Mat eyeL,
 
 
     //show the matched patch
-    cv::rectangle(roiImgL, cv::Point(maxLoc_L.x,maxLoc_L.y),
-                  cv::Point(maxLoc_L.x + scaledObj.size().width,
-                            maxLoc_L.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
-    cv::namedWindow("roiImgL");
-    cv::imshow("roiImgL", roiImgL);
+    // cv::rectangle(roiImgL, cv::Point(maxLoc_L.x,maxLoc_L.y),
+    //              cv::Point(maxLoc_L.x + scaledObj.size().width,
+    //                         maxLoc_L.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
+    // cv::namedWindow("roiImgL");
+    // cv::imshow("roiImgL", roiImgL);
 
-    cv::rectangle(roiImgR, cv::Point(maxLoc_R.x,maxLoc_R.y),
-                  cv::Point(maxLoc_R.x + scaledObj.size().width,
-                            maxLoc_R.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
-    cv::namedWindow("roiImgR");
-    cv::imshow("roiImgR", roiImgR);
+    // cv::rectangle(roiImgR, cv::Point(maxLoc_R.x,maxLoc_R.y),
+    //               cv::Point(maxLoc_R.x + scaledObj.size().width,
+    //                         maxLoc_R.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
+    // cv::namedWindow("roiImgR");
+    // cv::imshow("roiImgR", roiImgR);
 
 
 
@@ -129,8 +129,8 @@ int monoPupilDetect(const cv::Mat&  eye,
 
     scaledObj.convertTo(scaledObj , obj.type() , 1 , 0 );
 
-    cv::namedWindow("scaledObj");
-    cv::imshow("scaledObj", scaledObj);
+    // cv::namedWindow("scaledObj");
+    // cv::imshow("scaledObj", scaledObj);
 
 
     //match the template over the ROI image ,store the match result in the the Mat matchResultL & matchResultR
@@ -145,12 +145,13 @@ int monoPupilDetect(const cv::Mat&  eye,
     double minVal, maxVal;
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(matchResult, &minVal, &maxVal, &minLoc, &maxLoc);
+    pupilCenter = maxLoc + cv::Point(scaledObj.cols / 2, scaledObj.rows / 2);
 
-   //show the matched patch
-    cv::rectangle(roiImg, cv::Point(maxLoc.x,maxLoc.y),
-                  cv::Point(maxLoc.x + scaledObj.size().width,
-                            maxLoc.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
-    cv::namedWindow("roiImg");
-    cv::imshow("roiImg", roiImg);
-    cv::waitKey(1);
+    // show the matched patch
+    // cv::rectangle(roiImg, cv::Point(maxLoc.x,maxLoc.y),
+    //               cv::Point(maxLoc.x + scaledObj.size().width,
+    //                         maxLoc.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
+    // cv::namedWindow("roiImg");
+    // cv::imshow("roiImg", roiImg);
+    // cv::waitKey(1);
 }

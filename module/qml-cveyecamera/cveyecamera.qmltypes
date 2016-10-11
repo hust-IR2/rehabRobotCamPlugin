@@ -18,8 +18,9 @@ Module {
         Property { name: "size"; type: "QSize" }
         Property { name: "deviceList"; type: "QStringList"; isReadonly: true }
         Property { name: "cvImage"; type: "QVariant"; isReadonly: true }
-		Property { name: "leftTop"; type: "QString" }
-		Property { name: "rightDown"; type: "QString" }
+		Property { name: "leftTop"; type: "QPoint" }
+		Property { name: "rightDown"; type: "QPoint" }
+		Property { name: "pupilCenter"; type: "QPoint" }
         Method {
             name: "changeParent"
             Parameter { name: "parent"; type: "QQuickItem"; isPointer: true }

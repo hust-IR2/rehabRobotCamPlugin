@@ -6,7 +6,7 @@ CVEyeCamera::CVEyeCamera(QQuickItem* parent): CVCamera(parent)
 {
     leftTop = QPoint(0, 0);
     rightDown = QPoint(0, 0);
-    pupilCenter = cv::Point(0, 0);
+    cvPupilCenter = cv::Point(0, 0);
     // Here we must use this function to set exportCvImage true, then can we get the signal.
     getCvImage().value<cv::Mat>();
     connect(this, SIGNAL(cvImageChanged()), this, SLOT(cvImageProcess()));
@@ -33,14 +33,26 @@ void CVEyeCamera::setRightDown(QPoint _rightDown)
     this->rightDown = _rightDown;
 }
 
+QPoint CVEyeCamera::getPupilCenter()
+{
+    return pupilCenter;
+}
+
+void CVEyeCamera::setPupilCenter(QPoint center)
+{
+    pupilCenter = center;
+    cvPupilCenter = cv::Point(center.x(), center.y());
+}
+
 void CVEyeCamera::cvImageProcess()
 {
     cv::Mat image = getCvImage().value<cv::Mat>().clone();
     cv::Rect roi = cv::Rect(leftTop.x(), leftTop.y(), rightDown.x() - leftTop.x(), rightDown.y() - leftTop.y());
     cv::Mat pupilTemplate = cv::imread("pupilTemplate.jpg", 0);
     float scale = 0.9;
-    monoPupilDetect(image, roi, pupilCenter, pupilTemplate, scale);
-    std::cout <<"device id: " << this->getDevice() << "    center:" << pupilCenter << std::endl;
+    monoPupilDetect(image, roi, cvPupilCenter, pupilTemplate, scale);
+    pupilCenter = QPoint(cvPupilCenter.x, cvPupilCenter.y);
+    // std::cout <<"device id: " << this->getDevice() << "    center:" << cvPupilCenter << std::endl;
     // cv::rectangle(image, roi,cv::Scalar(0,0,255),3);
     // cv::imshow("image", image);
     // cv::waitKey(1);

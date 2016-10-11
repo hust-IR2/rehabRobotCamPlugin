@@ -18,21 +18,29 @@ Q_OBJECT
                READ getRightDown
                WRITE setRightDown
                NOTIFY RightDownChanged)
+    Q_PROPERTY(QPoint pupilCenter
+               READ getPupilCenter
+               WRITE setPupilCenter
+               NOTIFY PupilCenterChanged)
+
 public:
     CVEyeCamera(QQuickItem* parent = 0);
     QPoint getLeftTop();
     void setLeftTop(QPoint);
     QPoint getRightDown();
     void setRightDown(QPoint);
+    QPoint getPupilCenter();
+    void setPupilCenter(QPoint);
 signals:
     void RightDownChanged();
     void LeftTopChanged();
+    void PupilCenterChanged();
 public slots:
     void cvImageProcess();
 private:
     QPoint leftTop;
     QPoint rightDown;
-    QPoint center;
-    cv::Point pupilCenter;
+    QPoint pupilCenter;
+    cv::Point cvPupilCenter;
 };
 #endif // CVEYECAMERA_H

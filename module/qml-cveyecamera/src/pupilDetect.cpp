@@ -148,10 +148,10 @@ int monoPupilDetect(const cv::Mat&  eye,
     pupilCenter = maxLoc + cv::Point(scaledObj.cols / 2, scaledObj.rows / 2) + cv::Point(roi.x, roi.y);
 
 //     show the matched patch
-     cv::rectangle(roiImg, cv::Point(maxLoc.x,maxLoc.y),
+    // cv::rectangle(roiImg, cv::Point(maxLoc.x,maxLoc.y),
                    cv::Point(maxLoc.x + scaledObj.size().width,
                              maxLoc.y + scaledObj.size().height),cv::Scalar(0,0,255), 2, 8, 0);
-     cv::namedWindow("roiImg");
-     cv::imshow("roiImg", roiImg);
-     cv::waitKey(1);
+     //cv::namedWindow("roiImg");
+     //cv::imshow("roiImg", roiImg);
+     //cv::waitKey(1);
 }
